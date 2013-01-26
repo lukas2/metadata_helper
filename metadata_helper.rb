@@ -10,7 +10,7 @@ class MetadataHelper
     @title        = opts[:title]
     @url          = opts[:url]
     @description  = opts[:description]
-    @image_url    = opts[:image_url] || opts[:image]
+    @image_url    = opts[:image]
     @author       = opts[:author]
     @name         = opts[:name]
     @type         = opts[:type]
@@ -22,7 +22,6 @@ class MetadataHelper
       arr << mtag( 'description', @description )
       arr << mtag( 'author', @name )
     end.compact
-
   end
   
   def twitter_card
