@@ -12,7 +12,17 @@ class MetadataHelper
     @description  = opts[:description]
     @image_url    = opts[:image_url] || opts[:image]
     @author       = opts[:author]
+    @name         = opts[:name]
     @type         = opts[:type]
+  end
+
+  def old_school
+    Array.new.tap do |arr| 
+      arr << ttag( @title )
+      arr << mtag( 'description', @description )
+      arr << mtag( 'author', @name )
+    end.compact
+
   end
   
   def twitter_card
@@ -37,13 +47,17 @@ class MetadataHelper
   end
 
   def all
-    [ twitter_card, open_graph ].flatten.join( "\n" )
+    [ old_school, twitter_card, open_graph ].flatten.join( "\n" )
   end
 
   private
 
   def mtag( name, content )
     tag( :meta, { name: name, content: content }, false, false ) if name && content
+  end
+  
+  def ttag( content )
+    content_tag( :title, content ) if content
   end
 
 end
@@ -66,6 +80,7 @@ helper = MetadataHelper.new( {
   description:  'Just testing',
   type:         'article',
   author:       '@lukaszielinski',
+  name:         'Lukas Zielinski',
   image:        'http://mugs.mugbug.co.uk/500/mb.i_love_html_red_love_heart.coaster.jpg'
 } )
 
